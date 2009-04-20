@@ -1,15 +1,21 @@
-set :application, ""
-set :repository,  "set your repository location here"
+set :application,   "v8labs"
+set :scm,           'git'
+set :repository,    "git@veader.org:#{application}"
+set :deploy_to,     "/var/www/#{application}"
+set :user,          'web'
+set :keep_releases, 5
+set :use_sudo,      false
+set :deploy_via,    :copy
+set :port,          2222
 
-# If you aren't deploying to /u/apps/#{application} on the target
-# servers (which is the default), you can specify the actual location
-# via the :deploy_to variable:
-# set :deploy_to, "/var/www/#{application}"
+role :web,          "v8labs.com"
+# role :app,        "v8labs.com"
+# role :db,         "v8labs.com, :primary => true
 
-# If you aren't using Subversion to manage your source code, specify
-# your SCM below:
-# set :scm, :subversion
+deploy.task :restart, :roles => :web do
+  # DO NOTHING
+end
 
-role :app, "your app-server here"
-role :web, "your web-server here"
-role :db,  "your db-server here", :primary => true
+deploy.task :finalize_update, :except => { :no_release => true } do
+  # DO NOTHING
+end
